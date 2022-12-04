@@ -1,16 +1,16 @@
 package model;
 
 public enum Status {
-    NEW("новая задача"), DONE("задача завершена"), IN_PROGRESS("задача в процессе ыфполнения");
+    NEW("новая"), DONE("завершённая"), IN_PROGRESS("выполняется");
 
-    private String translation;
+    private String title;
 
     Status(String translation) {
-        this.translation = translation;
+        this.title = translation;
     }
 
     @Override
     public String toString() {
-        return translation;
+        return title;
     }
 }

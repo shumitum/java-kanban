@@ -1,7 +1,5 @@
 package model;
 
-import java.util.Objects;
-
 public class Task {
     private String taskName;
     private String description;
@@ -12,7 +10,6 @@ public class Task {
         this.taskName = "Введите название";
         this.description = "Добавьте описание...";
         this.status = Status.NEW;
-
     }
 
     public String getTaskName() {
@@ -32,13 +29,15 @@ public class Task {
     }
 
     public void setTaskName(String taskName) {
-
         this.taskName = taskName;
     }
 
     public void setId(int id) {
-
         this.id = id;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     @Override
@@ -49,20 +48,5 @@ public class Task {
                 ", status=" + status + '\'' +
                 ", id=" + id +
                 '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Task task = (Task) o;
-        return Objects.equals(taskName, task.taskName)
-                && Objects.equals(description, task.description)
-                && status == task.status;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(taskName, description, status);
     }
 }

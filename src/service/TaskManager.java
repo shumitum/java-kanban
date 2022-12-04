@@ -1,6 +1,7 @@
 package service;
 
 import model.Epic;
+import model.Status;
 import model.Subtask;
 import model.Task;
 
@@ -9,7 +10,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class TaskManager {
-
     private HashMap<Integer, Task> tasksList = new HashMap<>();
     private HashMap<Integer, Epic> epicList = new HashMap<>();
     private HashMap<Integer, ArrayList<Subtask>> subtaskList = new HashMap<>();
@@ -61,12 +61,10 @@ public class TaskManager {
     }
 
     public void deleteTaskById(int id) {
-
         tasksList.remove(id);
     }
 
     public void clearTasksList() {
-
         tasksList.clear();
     }
 
@@ -113,13 +111,11 @@ public class TaskManager {
     }
 
     public void deleteEpicById(int id) {
-
         epicList.remove(id);
         subtaskList.remove(id);
     }
 
     public void clearEpicList() {
-
         epicList.clear();
         subtaskList.clear();
     }
@@ -135,25 +131,47 @@ public class TaskManager {
     }
 
     public void updateSubtask(Subtask subtask) {
-        int epicId = 0;
         for (Map.Entry<Integer, ArrayList<Subtask>> subtasks : subtaskList.entrySet()) {
             ArrayList<Subtask> tasks = subtasks.getValue();
             for (int i = 0; i < tasks.size(); i++) {
                 if (tasks.get(i).getId() == subtask.getId()) {
                     tasks.set(i, subtask);
-                    epicId = subtasks.getKey();
+                    int epicId = subtasks.getKey();
+                    updateEpicStatus(epicId);
                     break;
                 }
             }
         }
-        System.out.println(epicId);
-        updateEpicStatus(epicId);
-
     }
 
     public void updateEpicStatus(int epicId) {
+        ArrayList<String> statuses = new ArrayList<>();
 
-        Epic epicForUpdate = epicList.get(epicId);
+        if (subtaskList.get(epicId).isEmpty()) {
+            epicList.get(epicId).setStatus(Status.NEW);
+        } else {
+            for (Subtask task : subtaskList.get(epicId)) {
+                if (task.getStatus().equals(Status.IN_PROGRESS)) {
+                    statuses.add("in_progress");
+                    break;
+                } else if (task.getStatus().equals(Status.NEW)) {
+                    statuses.add("new");
+                } else if (task.getStatus().equals(Status.DONE)) {
+                    statuses.add("done");
+                }
+            }
+            label:
+            if (statuses.contains("in_progress")) {
+                epicList.get(epicId).setStatus(Status.IN_PROGRESS);
+                break label;
+            } else if (statuses.contains("new") && !statuses.contains("done")) {
+                epicList.get(epicId).setStatus(Status.NEW);
+            } else if (!statuses.contains("new") && statuses.contains("done")) {
+                epicList.get(epicId).setStatus(Status.DONE);
+            } else {
+                epicList.get(epicId).setStatus(Status.IN_PROGRESS);
+            }
+        }
     }
 
     public ArrayList<String> getListOfSubtasks() {
@@ -187,13 +205,14 @@ public class TaskManager {
     }
 
     public void deleteSubtaskById(int id) {
-
         if (!subtaskList.isEmpty()) {
             for (Map.Entry<Integer, ArrayList<Subtask>> subtasks : subtaskList.entrySet()) {
                 ArrayList<Subtask> tasks = subtasks.getValue();
                 for (Subtask task : tasks) {
                     if (task.getId() == id) {
                         tasks.remove(task);
+                        int epicId = subtasks.getKey();
+                        updateEpicStatus(epicId);
                         break;
                     }
                 }
@@ -202,7 +221,11 @@ public class TaskManager {
     }
 
     public void clearSubtaskList() {
-
         subtaskList.clear();
+        if (!epicList.isEmpty()) {
+            for (Map.Entry<Integer, Epic> epic : epicList.entrySet()) {
+                epic.getValue().setStatus(Status.NEW);
+            }
+        }
     }
 }

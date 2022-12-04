@@ -8,7 +8,7 @@ public class Subtask extends Task{
 
     @Override
     public String toString() {
-        return "Subtask{" +
+        return "SUBTASK{" +
                 "subtaskName='" + getTaskName() + '\'' +
                 ", description='" + getDescription() + '\'' +
                 ", status=" + getStatus() +
