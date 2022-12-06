@@ -10,9 +10,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class TaskManager {
-    private HashMap<Integer, Task> tasksList = new HashMap<>();
-    private HashMap<Integer, Epic> epicList = new HashMap<>();
-    private HashMap<Integer, ArrayList<Subtask>> subtaskList = new HashMap<>();
+    private final HashMap<Integer, Task> tasksList = new HashMap<>();
+    private final HashMap<Integer, Epic> epicList = new HashMap<>();
+    private final HashMap<Integer, ArrayList<Subtask>> subtaskList = new HashMap<>();
     private static int id = 0;
 
     public HashMap<Integer, Task> getTasksList() {
@@ -160,10 +160,11 @@ public class TaskManager {
                     statuses.add("done");
                 }
             }
-            label:
+            outIfInProgress: // Без метки break не работает, позволяет прервать проверку условий т.к. нет необходимости
+            // проверять статусы остальных задач, если одна из подзадач в процессе.
             if (statuses.contains("in_progress")) {
                 epicList.get(epicId).setStatus(Status.IN_PROGRESS);
-                break label;
+                break outIfInProgress;
             } else if (statuses.contains("new") && !statuses.contains("done")) {
                 epicList.get(epicId).setStatus(Status.NEW);
             } else if (!statuses.contains("new") && statuses.contains("done")) {
