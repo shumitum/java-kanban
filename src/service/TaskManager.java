@@ -128,6 +128,7 @@ public class TaskManager {
         }
         subtasks.add(subtask);
         subtaskList.put(epic.getId(), subtasks);
+        updateEpicStatus(epic.getId());
     }
 
     public void updateSubtask(Subtask subtask) {
@@ -160,11 +161,8 @@ public class TaskManager {
                     statuses.add("done");
                 }
             }
-            outIfInProgress: // Без метки break не работает, позволяет прервать проверку условий т.к. нет необходимости
-            // проверять статусы остальных задач, если одна из подзадач в процессе.
             if (statuses.contains("in_progress")) {
                 epicList.get(epicId).setStatus(Status.IN_PROGRESS);
-                break outIfInProgress;
             } else if (statuses.contains("new") && !statuses.contains("done")) {
                 epicList.get(epicId).setStatus(Status.NEW);
             } else if (!statuses.contains("new") && statuses.contains("done")) {
