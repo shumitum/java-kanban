@@ -2,13 +2,13 @@ import model.Epic;
 import model.Status;
 import model.Subtask;
 import model.Task;
-import service.TaskManager;
+import service.InMemoryTaskManager;
 
 public class Main {
 
     public static void main(String[] args) {
         //код ниже служит для проверки работы методов и не несёт в себе никакого функционала
-        TaskManager taskManager = new TaskManager();
+        InMemoryTaskManager taskManager = new InMemoryTaskManager();
         System.out.println("МАНИПУЛЯЦИИ С ЗАДАЧАМИ");
         Epic epicTask1 = new Epic();
         epicTask1.setTaskName("epic 1");
