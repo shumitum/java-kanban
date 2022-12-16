@@ -5,9 +5,17 @@ import model.Subtask;
 import model.Task;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 
 public interface TaskManager {
+
+    HashMap<Integer, Task> getTasksList();
+
+    HashMap<Integer, Epic> getEpicList();
+
+    HashMap<Integer, ArrayList<Subtask>> getSubtaskList();
 
     void createTask(Task task);
 
@@ -39,7 +47,7 @@ public interface TaskManager {
 
     void updateSubtask(Subtask subtask);
 
-    void updateEpicStatus(int epicId);
+    //void updateEpicStatus(int epicId);
 
     ArrayList<String> getListOfSubtasks();
 
@@ -48,4 +56,6 @@ public interface TaskManager {
     void deleteSubtaskById(int id);
 
     void clearSubtaskList();
+
+    List<Task> getHistory();
 }

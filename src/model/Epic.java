@@ -1,8 +1,8 @@
 package model;
 
-public class Epic extends Task{
+public class Epic extends Task {
 
-    public Epic () {
+    public Epic() {
         super();
     }
 
@@ -13,6 +13,6 @@ public class Epic extends Task{
                 ", description='" + getDescription() + '\'' +
                 ", status=" + getStatus() +
                 ", id=" + getId() +
-                '}';
+                '}' + "\n";
     }
 }

@@ -1,6 +1,6 @@
 package model;
 
-public class Subtask extends Task{
+public class Subtask extends Task {
 
     public Subtask() {
         super();
@@ -13,6 +13,6 @@ public class Subtask extends Task{
                 ", description='" + getDescription() + '\'' +
                 ", status=" + getStatus() +
                 ", id=" + getId() +
-                '}';
+                '}' + "\n";
     }
 }
