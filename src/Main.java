@@ -8,7 +8,12 @@ import service.TaskManager;
 public class Main {
 
     public static void main(String[] args) {
-        //код ниже служит для проверки работы методов и не несёт в себе никакого функционала
+        //Механизм заполнения истории.
+        //Методы по получению задачи/подзадачи/эпика по ID вызывают метод add(Task task), который проверяет, что переданная задача не null,
+        //далее добавляет задачу в список history, и если в списке появился 11-ый элемент (по ТЗ в истории должно хранится 10 последних задач,
+        //дубликаты удалять не нужно), то самый "старый" элемент истории с индексом 0 удаляется.
+        //В строках 95 и 98 циклы, которые некоторое количество раз вызывают получение эпика/подзадачи по ID для проверки поведения метода
+        //при "переполнении" истории задач, именно из-за них в истории просмотра 8 одинаковых эпиков и 2 подзадачи.
         TaskManager inMemoryTaskManager = Managers.getDefault();
 
         System.out.println("МАНИПУЛЯЦИИ С ЗАДАЧАМИ");
@@ -87,7 +92,7 @@ public class Main {
         Subtask subtask4 = new Subtask();
         inMemoryTaskManager.createSubtask(epicTask2, subtask4);
         System.out.println("Добавить подзадачу 4 к эпику 2 " + inMemoryTaskManager.getSubtaskList());
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 20; i++) {//проверка поведения истории подзадач при добавлении более 10 элементов
             inMemoryTaskManager.getEpicById(epicTask1.getId());
         }
         for (int i = 0; i < 2; i++) {

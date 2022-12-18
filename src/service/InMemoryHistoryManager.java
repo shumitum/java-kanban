@@ -6,11 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InMemoryHistoryManager implements HistoryManager {
-    private final List<Task> history = new ArrayList<>();
+    private final List<Task> history = new ArrayList<>(); //использовал единственную реализацию листа с которой на данный момент знаком
 
     @Override
     public void add(Task task) {
-        if (!(task == null)) {
+        if (task != null) {
             history.add(task);
         }
         if (history.size() == 11) {

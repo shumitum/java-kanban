@@ -23,7 +23,8 @@ public class InMemoryTaskManager implements TaskManager {
         if (subtaskList.get(epicId).isEmpty()) {
             epicList.get(epicId).setStatus(Status.NEW);
         } else {
-            for (Subtask task : subtaskList.get(epicId)) {
+            for (Subtask task : subtaskList.get(epicId)) { // в этом цикле собираются статусы подзадач эпика в промежуточный список в виде стрингов
+                //элементам списка присваиваются те же названия, что и у статусов для удобства, статус эпику присваивается ниже
                 if (task.getStatus().equals(Status.IN_PROGRESS)) {
                     statuses.add("in_progress");
                     break;
@@ -33,7 +34,7 @@ public class InMemoryTaskManager implements TaskManager {
                     statuses.add("done");
                 }
             }
-            if (statuses.contains("in_progress")) {
+            if (statuses.contains("in_progress")) {//тут присваивается статус эпика в зависимости от комбинации статусов подзадач, записанных в промежуточный список
                 epicList.get(epicId).setStatus(Status.IN_PROGRESS);
             } else if (statuses.contains("new") && !statuses.contains("done")) {
                 epicList.get(epicId).setStatus(Status.NEW);
