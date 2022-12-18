@@ -92,7 +92,7 @@ public class Main {
         Subtask subtask4 = new Subtask();
         inMemoryTaskManager.createSubtask(epicTask2, subtask4);
         System.out.println("Добавить подзадачу 4 к эпику 2 " + inMemoryTaskManager.getSubtaskList());
-        for (int i = 0; i < 20; i++) {//проверка поведения истории подзадач при добавлении более 10 элементов
+        for (int i = 0; i < 20; i++) {//проверка работы метода add(Task task) при добавлении в историю просмотра более 10 элементов
             inMemoryTaskManager.getEpicById(epicTask1.getId());
         }
         for (int i = 0; i < 2; i++) {
