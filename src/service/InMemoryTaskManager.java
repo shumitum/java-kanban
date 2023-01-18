@@ -23,8 +23,7 @@ public class InMemoryTaskManager implements TaskManager {
         if (subtaskList.get(epicId).isEmpty()) {
             epicList.get(epicId).setStatus(Status.NEW);
         } else {
-            for (Subtask task : subtaskList.get(epicId)) { // в этом цикле собираются статусы подзадач эпика в промежуточный список в виде стрингов
-                //элементам списка присваиваются те же названия, что и у статусов для удобства, статус эпику присваивается ниже
+            for (Subtask task : subtaskList.get(epicId)) {
                 if (task.getStatus().equals(Status.IN_PROGRESS)) {
                     statuses.add("in_progress");
                     break;
@@ -34,7 +33,7 @@ public class InMemoryTaskManager implements TaskManager {
                     statuses.add("done");
                 }
             }
-            if (statuses.contains("in_progress")) {//тут присваивается статус эпика в зависимости от комбинации статусов подзадач, записанных в промежуточный список
+            if (statuses.contains("in_progress")) {
                 epicList.get(epicId).setStatus(Status.IN_PROGRESS);
             } else if (statuses.contains("new") && !statuses.contains("done")) {
                 epicList.get(epicId).setStatus(Status.NEW);
@@ -102,11 +101,17 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void deleteTaskById(int id) {
         tasksList.remove(id);
+        historyManager.remove(id);
     }
 
     @Override
     public void clearTasksList() {
-        tasksList.clear();
+        if (!tasksList.isEmpty()) {
+            for (Integer key : tasksList.keySet()) {
+                historyManager.remove(key);
+            }
+            tasksList.clear();
+        }
     }
 
     @Override
@@ -159,14 +164,32 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void deleteEpicById(int id) {
+        historyManager.remove(id);
+        if (subtaskList.containsKey(id)) {
+            for (Subtask subtask : subtaskList.get(id)) {
+                historyManager.remove(subtask.getId());
+            }
+        }
         epicList.remove(id);
         subtaskList.remove(id);
     }
 
     @Override
     public void clearEpicList() {
-        epicList.clear();
+        if (!subtaskList.isEmpty()) {
+            for (Map.Entry<Integer, ArrayList<Subtask>> subtasks : subtaskList.entrySet()) {
+                for (Subtask task : subtasks.getValue()) {
+                    historyManager.remove(task.getId());
+                }
+            }
+        }
+        if (!epicList.isEmpty()) {
+            for (Integer epicID : epicList.keySet()) {
+                historyManager.remove(epicID);
+            }
+        }
         subtaskList.clear();
+        epicList.clear();
     }
 
     @Override
@@ -232,6 +255,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void deleteSubtaskById(int id) {
         if (!subtaskList.isEmpty()) {
+            historyManager.remove(id);
             for (Map.Entry<Integer, ArrayList<Subtask>> subtasks : subtaskList.entrySet()) {
                 ArrayList<Subtask> tasks = subtasks.getValue();
                 for (Subtask task : tasks) {
@@ -248,10 +272,17 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void clearSubtaskList() {
-        subtaskList.clear();
-        if (!epicList.isEmpty()) {
-            for (Map.Entry<Integer, Epic> epic : epicList.entrySet()) {
-                epic.getValue().setStatus(Status.NEW);
+        if (!subtaskList.isEmpty()) {
+            for (Map.Entry<Integer, ArrayList<Subtask>> subtasks : subtaskList.entrySet()) {
+                for (Subtask task : subtasks.getValue()) {
+                    historyManager.remove(task.getId());
+                }
+            }
+            subtaskList.clear();
+            if (!epicList.isEmpty()) {
+                for (Map.Entry<Integer, Epic> epic : epicList.entrySet()) {
+                    epic.getValue().setStatus(Status.NEW);
+                }
             }
         }
     }
