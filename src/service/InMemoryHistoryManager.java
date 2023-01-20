@@ -9,23 +9,11 @@ import java.util.Map;
 
 public class InMemoryHistoryManager implements HistoryManager {
     private final List<Task> history = new ArrayList<>();
-    private final Map<Integer, Node<? extends Task>> taskNodes = new HashMap<>();
-    public Node head;
-    public Node tail;
+    private final Map<Integer, Node> taskNodes = new HashMap<>();
+    private Node head; //проглядел, private конечно же
+    private Node tail; //проглядел, private конечно же
 
-    private class Node<T extends Task> {
-        public T data;
-        public Node<T> next;
-        public Node<T> prev;
-
-        public Node(Node<T> prev, T data, Node<T> next) {
-            this.data = data;
-            this.next = next;
-            this.prev = prev;
-        }
-    }
-
-    public void linkLast(Task task) {
+    private void linkLast(Task task) {
         final Node oldTail = tail;
         final Node newNode = new Node(oldTail, task, null);
         tail = newNode;
@@ -37,20 +25,20 @@ public class InMemoryHistoryManager implements HistoryManager {
         taskNodes.put(task.getId(), newNode);
     }
 
-    public void getTasks() {
+    private void getTasks() {
         history.clear();
         if (head != null) {
             history.add(head.data);
-            Node x = head.next;
-            while (x != null) {
-                history.add(x.data);
-                x = x.next;
+            Node currentNode = head.next;
+            while (currentNode != null) {
+                history.add(currentNode.data);
+                currentNode = currentNode.next;
             }
         }
     }
 
-    public Task removeNode(Node x) {
-        Node<? extends Task> task = taskNodes.remove(x.data.getId());
+    private Task removeNode(Node removedTaskNode) {
+        Node task = taskNodes.remove(removedTaskNode.data.getId());
         final Task element = task.data;
         final Node next = task.next;
         final Node prev = task.prev;
