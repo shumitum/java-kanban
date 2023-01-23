@@ -38,7 +38,8 @@ public class InMemoryHistoryManager implements HistoryManager {
     }
 
     private Task removeNode(Node removedTaskNode) {
-        Node task = taskNodes.remove(removedTaskNode.data.getId());
+        Node task = taskNodes.remove(removedTaskNode.data.getId()); //(Что будет, если removedTaskNode==null?)
+        //Будет NullPointerException. Добавил проверку передаваемой Ноды на null в методе add до вызова метода removeNode
         final Task element = task.data;
         final Node next = task.next;
         final Node prev = task.prev;
@@ -64,7 +65,9 @@ public class InMemoryHistoryManager implements HistoryManager {
     public void add(Task task) {
         if (task != null) {
             if (taskNodes.containsKey(task.getId())) {
-                linkLast(removeNode(taskNodes.get(task.getId())));
+                if (taskNodes.get(task.getId()) != null) {
+                    linkLast(removeNode(taskNodes.get(task.getId())));
+                }
             } else {
                 linkLast(task);
             }
