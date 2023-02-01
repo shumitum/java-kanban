@@ -7,11 +7,22 @@ public class Task {
     private String description;
     private Status status;
     private int id;
+    private TaskType taskType;
 
     public Task() {
         this.taskName = "Введите название";
         this.description = "Добавьте описание...";
         this.status = Status.NEW;
+        this.taskType = TaskType.TASK;
+    }
+
+    public Task(int id, String taskName, Status status, String description) {
+        this.id = id;
+        this.taskName = taskName;
+        this.status = status;
+        this.description = description;
+        this.taskType = TaskType.TASK;
+
     }
 
     public String getTaskName() {
@@ -42,14 +53,13 @@ public class Task {
         this.status = status;
     }
 
+    public void setTaskType(TaskType taskType) {
+        this.taskType = taskType;
+    }
+
     @Override
     public String toString() {
-        return "Task{" +
-                "taskName='" + taskName + '\'' +
-                ", description='" + description + '\'' +
-                ", status=" + status + '\'' +
-                ", id=" + id +
-                '}' + "\n";
+        return id + "," + taskType + "," + taskName + "," + status + "," + description + ",";
     }
 
     @Override

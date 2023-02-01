@@ -2,8 +2,7 @@ package service;
 
 import model.Task;
 
-public class Node { //Не нашел более причин использовать дженерики в реализации класса, объявил поле data с типом Task
-    //в которое можно положить всех наследников класса Task(в котором есть все нужные методы)
+public class Node {
     Task data;
     Node next;
     Node prev;

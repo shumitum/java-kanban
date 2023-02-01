@@ -45,19 +45,12 @@ public class InMemoryTaskManager implements TaskManager {
         }
     }
 
-    @Override
-    public HashMap<Integer, Task> getTasksList() {
-        return tasksList;
+    public static void setId(int id) {
+        InMemoryTaskManager.id = id;
     }
 
-    @Override
-    public HashMap<Integer, Epic> getEpicList() {
-        return epicList;
-    }
-
-    @Override
-    public HashMap<Integer, ArrayList<Subtask>> getSubtaskList() {
-        return subtaskList;
+    public HistoryManager getHistoryManager() {
+        return historyManager;
     }
 
     @Override
@@ -66,20 +59,25 @@ public class InMemoryTaskManager implements TaskManager {
         tasksList.put(id, task);
     }
 
+    public void createTask(int taskId, Task task) {
+        tasksList.put(taskId, task);
+    }
+
     @Override
     public void updateTask(Task task) {
         if (tasksList.containsKey(task.getId())) {
             tasksList.put(task.getId(), task);
+            historyManager.add(task);
         }
     }
 
     @Override
-    public ArrayList<String> getListOfTasks() {
-        ArrayList<String> tasksList = new ArrayList<>();
+    public ArrayList<Task> getListOfTasks() {
+        ArrayList<Task> tasksList = new ArrayList<>();
 
         if (!this.tasksList.isEmpty()) {
-            for (Map.Entry<Integer, Task> name : this.tasksList.entrySet()) {
-                tasksList.add(name.getValue().getTaskName());
+            for (Map.Entry<Integer, Task> task : this.tasksList.entrySet()) {
+                tasksList.add(task.getValue());
             }
         }
         return tasksList;
@@ -120,20 +118,25 @@ public class InMemoryTaskManager implements TaskManager {
         epicList.put(id, epic);
     }
 
+    public void createEpic(int epicId, Epic epic) {
+        epicList.put(epicId, epic);
+    }
+
     @Override
     public void updateEpic(Epic epic) {
         if (epicList.containsKey(epic.getId())) {
             epicList.put(epic.getId(), epic);
+            historyManager.add(epic);
         }
     }
 
     @Override
-    public ArrayList<String> getListOfEpics() {
-        ArrayList<String> tasksList = new ArrayList<>();
+    public ArrayList<Epic> getListOfEpics() {
+        ArrayList<Epic> tasksList = new ArrayList<>();
 
         if (!this.epicList.isEmpty()) {
             for (Map.Entry<Integer, Epic> epic : epicList.entrySet()) {
-                tasksList.add(epic.getValue().getTaskName());
+                tasksList.add(epic.getValue());
             }
         }
         return tasksList;
@@ -195,6 +198,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void createSubtask(Epic epic, Subtask subtask) {
         subtask.setId(++id);
+        subtask.setEpicId(epic.getId());
         ArrayList<Subtask> subtasks = new ArrayList<>();
         if (subtaskList.get(epic.getId()) != null) {
             subtasks = subtaskList.get(epic.getId());
@@ -202,6 +206,16 @@ public class InMemoryTaskManager implements TaskManager {
         subtasks.add(subtask);
         subtaskList.put(epic.getId(), subtasks);
         updateEpicStatus(epic.getId());
+    }
+
+    public void createSubtask(int epicId, Subtask subtask) {
+        ArrayList<Subtask> subtasks = new ArrayList<>();
+        if (subtaskList.get(epicId) != null) {
+            subtasks = subtaskList.get(epicId);
+        }
+        subtasks.add(subtask);
+        subtaskList.put(epicId, subtasks);
+        updateEpicStatus(epicId);
     }
 
     @Override
@@ -213,6 +227,7 @@ public class InMemoryTaskManager implements TaskManager {
                     tasks.set(i, subtask);
                     int epicId = subtasks.getKey();
                     updateEpicStatus(epicId);
+                    historyManager.add(subtask);
                     break;
                 }
             }
@@ -220,15 +235,13 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public ArrayList<String> getListOfSubtasks() {
-        ArrayList<String> tasksList = new ArrayList<>();
+    public ArrayList<Subtask> getListOfSubtasks() {
+        ArrayList<Subtask> tasksList = new ArrayList<>();
 
         if (!this.subtaskList.isEmpty()) {
             for (Map.Entry<Integer, ArrayList<Subtask>> subtasks : subtaskList.entrySet()) {
                 ArrayList<Subtask> tasks = subtasks.getValue();
-                for (Subtask task : tasks) {
-                    tasksList.add(task.getTaskName());
-                }
+                tasksList.addAll(tasks);
             }
         }
         return tasksList;

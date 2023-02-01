@@ -6,13 +6,13 @@ public class Epic extends Task {
         super();
     }
 
+    public Epic(int id, String taskName, Status status, String description) {
+        super(id, taskName, status, description);
+        setTaskType(TaskType.EPIC);
+    }
+
     @Override
     public String toString() {
-        return "EPIC{" +
-                "epicName='" + getTaskName() + '\'' +
-                ", description='" + getDescription() + '\'' +
-                ", status=" + getStatus() +
-                ", id=" + getId() +
-                '}' + "\n";
+        return getId() + "," + TaskType.EPIC + "," + getTaskName() + "," + getStatus() + "," + getDescription() + ",";
     }
 }

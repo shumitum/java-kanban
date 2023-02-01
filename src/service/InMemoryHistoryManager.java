@@ -10,8 +10,8 @@ import java.util.Map;
 public class InMemoryHistoryManager implements HistoryManager {
     private final List<Task> history = new ArrayList<>();
     private final Map<Integer, Node> taskNodes = new HashMap<>();
-    private Node head; //проглядел, private конечно же
-    private Node tail; //проглядел, private конечно же
+    private Node head;
+    private Node tail;
 
     private void linkLast(Task task) {
         final Node oldTail = tail;
@@ -38,8 +38,7 @@ public class InMemoryHistoryManager implements HistoryManager {
     }
 
     private Task removeNode(Node removedTaskNode) {
-        Node task = taskNodes.remove(removedTaskNode.data.getId()); //(Что будет, если removedTaskNode==null?)
-        //Будет NullPointerException. Добавил проверку передаваемой Ноды на null в методе add до вызова метода removeNode
+        Node task = taskNodes.remove(removedTaskNode.data.getId());
         final Task element = task.data;
         final Node next = task.next;
         final Node prev = task.prev;
