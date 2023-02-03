@@ -12,7 +12,7 @@ import java.util.*;
 
 public class FileBackedTasksManager extends InMemoryTaskManager {
     public static void main(String[] args) {
-        FileBackedTasksManager fileBackedTasksManager = new FileBackedTasksManager(new File(PATH));
+        TaskManager fileBackedTasksManager = Managers.getDefault();
 
         Epic epicTask1 = new Epic();
         epicTask1.setTaskName("epic 1");
@@ -66,9 +66,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         System.out.println("ВОССТАНОВЛЕННЫЙ список подзадач\n" + newFileBackedTasksManager.getListOfSubtasks());
         System.out.println("ВОССТАНОВЛЕННЫЙ список эпиков\n" + newFileBackedTasksManager.getListOfEpics());
 
-        Epic epicTask3 = new Epic(); // попытка в имитацию ситуации перезапуска приложения, когда кода в строках 15 - 60 уже нет,
-        // соответственно и первого менеджера, будет ли дальше приложение корректно работать и сохранять задачи в файл,
-        // так как на некоторых этапах разработки это вызывало проблемы
+        Epic epicTask3 = new Epic();
         epicTask3.setTaskName("epic 3");
         newFileBackedTasksManager.createEpic(epicTask3);
         System.out.println("СОЗДАТЬ новый эпик\n" + newFileBackedTasksManager.getListOfEpics());
@@ -265,4 +263,3 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         save();
     }
 }
-
