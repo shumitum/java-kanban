@@ -1,10 +1,4 @@
-id,type,name,status,description,epic
-3,TASK,task 1,NEW,Добавьте описание...,
-6,TASK,task 2,NEW,Добавьте описание...,
-1,EPIC,epic 1,NEW,NEW DESCRIPTION...,
-2,EPIC,epic 2,NEW,Добавьте описание...,
-7,EPIC,epic 3,NEW,Добавьте описание...,
-4,SUBTASK,sub 1,NEW,Добавьте описание...,1
-5,SUBTASK,sub 2,NEW,Добавьте описание...,2
+id,type,name,status,description,start_time,duration,end_time,epic
+1,TASK,Введите название,NEW,Добавьте описание...,null,0,null
+2,EPIC,Введите название,NEW,Добавьте описание...,null,0,null
 
-2,4,3,7

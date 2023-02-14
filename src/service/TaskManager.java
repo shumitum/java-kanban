@@ -6,9 +6,12 @@ import model.Task;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 
 public interface TaskManager {
+
+    public Set<Task> getPrioritizedTasks();
 
     void createTask(Task task);
 
