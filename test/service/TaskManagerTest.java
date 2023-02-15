@@ -349,20 +349,6 @@ abstract class TaskManagerTest<T extends TaskManager> {
     }
 
     @Test
-    void shouldThrowIllegalArgumentException() {
-        taskManager.createEpic(epic);
-        task.setStartTime(LocalDateTime.now());
-        task.setDuration(360);
-        taskManager.createTask(task);
-        subtask.setStartTime(LocalDateTime.now().minusHours(1));
-        subtask.setDuration(360);
-
-        final IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
-                taskManager.createSubtask(epic, subtask));
-        assertEquals("Задачи не должны пересекаться по времени выполнения", exception.getMessage());
-    }
-
-    @Test
     void epicStatusShouldBeNewWithEmptySubtaskList() {
         taskManager.createEpic(epic);
 

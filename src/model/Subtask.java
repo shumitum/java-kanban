@@ -31,9 +31,9 @@ public class Subtask extends Task {
                 + getTaskName() + ","
                 + getStatus() + ","
                 + getDescription() + ","
-                + getStartTime() + ","
+                + timeReformat(getStartTime()) + ","
                 + getDuration() + ","
-                + getEndTime() + ","
+                + timeReformat(getEndTime()) + ","
                 + EpicId;
     }
 }

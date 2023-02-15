@@ -1,6 +1,5 @@
 package model;
 
-
 import java.time.LocalDateTime;
 
 public class Epic extends Task {
@@ -32,8 +31,8 @@ public class Epic extends Task {
                 + getTaskName() + ","
                 + getStatus() + ","
                 + getDescription() + ","
-                + getStartTime() + ","
+                + timeReformat(getStartTime()) + ","
                 + getDuration() + ","
-                + getEndTime();
+                + timeReformat(getEndTime());
     }
 }

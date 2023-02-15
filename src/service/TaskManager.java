@@ -11,7 +11,7 @@ import java.util.Set;
 
 public interface TaskManager {
 
-    public Set<Task> getPrioritizedTasks();
+    Set<Task> getPrioritizedTasks();
 
     void createTask(Task task);
 

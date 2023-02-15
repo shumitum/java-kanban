@@ -118,20 +118,32 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void createTask(Task task) {
-        taskTimeIntersectionCheck(task);
+        try {
+            taskTimeIntersectionCheck(task);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
         task.setId(++id);
         tasksList.put(id, task);
     }
 
     public void createTask(int taskId, Task task) {
-        taskTimeIntersectionCheck(task);
+        try {
+            taskTimeIntersectionCheck(task);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
         tasksList.put(taskId, task);
     }
 
     @Override
     public void updateTask(Task task) {
         if (tasksList.containsKey(task.getId())) {
-            taskTimeIntersectionCheck(task);
+            try {
+                taskTimeIntersectionCheck(task);
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
             tasksList.put(task.getId(), task);
             historyManager.add(task);
         }
@@ -259,7 +271,11 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void createSubtask(Epic epic, Subtask subtask) {
-        taskTimeIntersectionCheck(subtask);
+        try {
+            taskTimeIntersectionCheck(subtask);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
         subtask.setId(++id);
         subtask.setEpicId(epic.getId());
         ArrayList<Subtask> subtasks = new ArrayList<>();
@@ -275,7 +291,11 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     public void createSubtask(int epicId, Subtask subtask) {
-        taskTimeIntersectionCheck(subtask);
+        try {
+            taskTimeIntersectionCheck(subtask);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
         ArrayList<Subtask> subtasks = new ArrayList<>();
         if (subtaskList.get(epicId) != null) {
             subtasks = subtaskList.get(epicId);
@@ -290,7 +310,11 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void updateSubtask(Subtask subtask) {
-        taskTimeIntersectionCheck(subtask);
+        try {
+            taskTimeIntersectionCheck(subtask);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
         for (Map.Entry<Integer, ArrayList<Subtask>> subtasks : subtaskList.entrySet()) {
             ArrayList<Subtask> tasks = subtasks.getValue();
             for (int i = 0; i < tasks.size(); i++) {

@@ -1,9 +1,12 @@
 package model;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 public class Task {
+    public static DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy - HH:mm"); // Поначалу было желание отформатировать вывод времени,
+    //а потом вспомнил, что до жесткого дедлайна всего ничего, и решил не распаляться на функционал не по ТЗ, но удалить закомментированный код, как водиться, забыл.
     private String taskName;
     private String description;
     private Status status;
@@ -29,8 +32,6 @@ public class Task {
         this.startTime = startTime;
         this.duration = duration;
     }
-
-    //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy, HH:mm");
 
     public String getTaskName() {
         return taskName;
@@ -95,6 +96,13 @@ public class Task {
         this.duration = duration;
     }
 
+    public String timeReformat(LocalDateTime localDateTime) {
+        if (localDateTime != null) {
+            return localDateTime.format(TIME_FORMATTER);
+        }
+        return null;
+    }
+
     @Override
     public String toString() {
         return id + ","
@@ -102,9 +110,9 @@ public class Task {
                 + taskName + ","
                 + status + ","
                 + description + ","
-                + startTime + ","
+                + timeReformat(startTime) + ","
                 + duration + ","
-                + getEndTime();
+                + timeReformat(getEndTime());
     }
 
     @Override
