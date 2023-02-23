@@ -51,7 +51,8 @@ class InMemoryHistoryManagerTest {
 
         taskManager.createTask(task);
         taskManager.createEpic(epic);
-        taskManager.createSubtask(epic, subtask);
+        subtask.setEpicId(epic.getId());
+        taskManager.createSubtask(subtask);
         historyManager.add(task);
         historyManager.add(task);
         historyManager.add(epic);
@@ -66,7 +67,8 @@ class InMemoryHistoryManagerTest {
     void remove() {
         taskManager.createTask(task);
         taskManager.createEpic(epic);
-        taskManager.createSubtask(epic, subtask);
+        subtask.setEpicId(epic.getId());
+        taskManager.createSubtask(subtask);
         historyManager.add(task);
         historyManager.add(task);
         historyManager.add(epic);

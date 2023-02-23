@@ -242,11 +242,11 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void deleteEpicById(int id) {
         if (subtaskList.containsKey(id)) {
-            historyManager.remove(id);
             for (Subtask subtask : subtaskList.get(id)) {
                 historyManager.remove(subtask.getId());
             }
         }
+        historyManager.remove(id);
         epicList.remove(id);
         subtaskList.remove(id);
     }
@@ -270,24 +270,23 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void createSubtask(Epic epic, Subtask subtask) {
+    public void createSubtask(Subtask subtask) {
         try {
             taskTimeIntersectionCheck(subtask);
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
         }
         subtask.setId(++id);
-        subtask.setEpicId(epic.getId());
         ArrayList<Subtask> subtasks = new ArrayList<>();
-        if (subtaskList.get(epic.getId()) != null) {
-            subtasks = subtaskList.get(epic.getId());
+        if (subtaskList.get(subtask.getEpicId()) != null) {
+            subtasks = subtaskList.get(subtask.getEpicId());
         }
         subtasks.add(subtask);
-        subtaskList.put(epic.getId(), subtasks);
-        updateEpicStatus(epic.getId());
-        setEpicStartTime(epic.getId());
-        updateEpicDuration(epic.getId());
-        updateEpicEndTime(epic.getId());
+        subtaskList.put(subtask.getEpicId(), subtasks);
+        updateEpicStatus(subtask.getEpicId());
+        setEpicStartTime(subtask.getEpicId());
+        updateEpicDuration(subtask.getEpicId());
+        updateEpicEndTime(subtask.getEpicId());
     }
 
     public void createSubtask(int epicId, Subtask subtask) {

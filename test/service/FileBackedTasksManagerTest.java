@@ -17,7 +17,7 @@ import static service.FileBackedTasksManager.PATH;
 class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager> {
     @Override
     FileBackedTasksManager getRightTypeOfManager() {
-        return new FileBackedTasksManager(new File(PATH));
+        return new FileBackedTasksManager();
     }
 
     @BeforeEach

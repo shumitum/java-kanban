@@ -5,8 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 public class Task {
-    public static DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy - HH:mm"); // Поначалу было желание отформатировать вывод времени,
-    //а потом вспомнил, что до жесткого дедлайна всего ничего, и решил не распаляться на функционал не по ТЗ, но удалить закомментированный код, как водиться, забыл.
+    public static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy - HH:mm");
     private String taskName;
     private String description;
     private Status status;

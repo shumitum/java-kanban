@@ -39,7 +39,7 @@ public interface TaskManager {
 
     void clearEpicList();
 
-    void createSubtask(Epic epic, Subtask subtask);
+    void createSubtask(Subtask subtask);
 
     void updateSubtask(Subtask subtask);
 
