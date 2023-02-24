@@ -23,7 +23,7 @@ class HttpTaskManagerTest extends TaskManagerTest<HttpTaskManager> {
     private KVServer kvServer;
     private HttpTaskServer httpTaskServer;
     private HttpClient client;
-    private final Gson gson = Managers.getGson();
+    private final Gson gson = LocalDateTimeFormatter.getGson();
 
     @Override
     HttpTaskManager getRightTypeOfManager() {

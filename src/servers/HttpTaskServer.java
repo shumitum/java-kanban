@@ -9,6 +9,7 @@ import model.Epic;
 import model.Subtask;
 import model.Task;
 import service.HttpTaskManager;
+import service.LocalDateTimeFormatter;
 import service.Managers;
 
 import java.io.IOException;
@@ -35,7 +36,7 @@ public class HttpTaskServer {
         httpTaskServer.createContext("/tasks/epic", new epicHandler());
         httpTaskServer.createContext("/tasks/subtask/epic", new EpicsSubtaskHandler());
         httpTaskServer.createContext("/tasks/history", new historyHandler());
-        gson = Managers.getGson();
+        gson = LocalDateTimeFormatter.getGson();
     }
 
     public void start() {

@@ -20,7 +20,7 @@ public class HttpTaskManager extends FileBackedTasksManager {
 
     public HttpTaskManager(String kvServerUrl) {
         kvTaskClient = new KVTaskClient(kvServerUrl);
-        gson = Managers.getGson();
+        gson = LocalDateTimeFormatter.getGson();
     }
 
     @Override
@@ -37,7 +37,7 @@ public class HttpTaskManager extends FileBackedTasksManager {
 
     public static HttpTaskManager loadFromServer(String kvServerUrl) {
         Map<Integer, Task> allTasks = new HashMap<>();
-        Gson gson = Managers.getGson();
+        Gson gson = LocalDateTimeFormatter.getGson();
         HttpTaskManager httpTaskManager = new HttpTaskManager(kvServerUrl);
         String jSonTasks = httpTaskManager.kvTaskClient.load("tasks");
         Type tasksTypeList = new TypeToken<ArrayList<Task>>(){}.getType();

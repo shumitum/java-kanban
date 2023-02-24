@@ -28,9 +28,11 @@ public class KVServer {
     }
 
     private void load(HttpExchange h) throws IOException {
-        try {
+        try { // в учебных проектах Яндекса используется Amazon Coretto JDK 11, и HttpExchange
+            // не имплементирует Closeable/AutoCloseable (в отличии от Oracle OpenJDK)
+            // поэтому приходиться закрывать в блоке finally
             System.out.println("\n/load");
-            if (!hasAuth(h)) {
+            if (hasAuth(h)) {
                 System.out.println("Запрос неавторизован, нужен параметр в query API_TOKEN со значением апи-ключа");
                 h.sendResponseHeaders(403, 0);
                 return;
@@ -63,7 +65,7 @@ public class KVServer {
     private void save(HttpExchange h) throws IOException {
         try {
             System.out.println("\n/save");
-            if (!hasAuth(h)) {
+            if (hasAuth(h)) {
                 System.out.println("Запрос неавторизован, нужен параметр в query API_TOKEN со значением апи-ключа");
                 h.sendResponseHeaders(403, 0);
                 return;
@@ -125,7 +127,7 @@ public class KVServer {
 
     protected boolean hasAuth(HttpExchange h) {
         String rawQuery = h.getRequestURI().getRawQuery();
-        return rawQuery != null && (rawQuery.contains("API_TOKEN=" + apiToken) || rawQuery.contains("API_TOKEN=DEBUG"));
+        return rawQuery == null || (!rawQuery.contains("API_TOKEN=" + apiToken) && !rawQuery.contains("API_TOKEN=DEBUG"));
     }
 
     protected String readText(HttpExchange h) throws IOException {

@@ -9,7 +9,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import service.HttpTaskManager;
-import service.Managers;
+import service.LocalDateTimeFormatter;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -29,7 +29,7 @@ class HttpTaskServerTest {
     private KVServer kvServer;
     private HttpTaskServer httpTaskServer;
     private HttpClient client;
-    private final Gson gson = Managers.getGson();
+    private final Gson gson = LocalDateTimeFormatter.getGson();
     private Task task;
     Subtask subtask;
     Epic epic;

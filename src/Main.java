@@ -5,7 +5,7 @@ import model.Task;
 import servers.HttpTaskServer;
 import servers.KVServer;
 import service.HttpTaskManager;
-import service.Managers;
+import service.LocalDateTimeFormatter;
 
 import java.io.IOException;
 import java.net.URI;
@@ -26,7 +26,7 @@ public class Main {
         httpTaskServer.start();
 
         HttpClient client = HttpClient.newHttpClient();
-        Gson gson = Managers.getGson();
+        Gson gson = LocalDateTimeFormatter.getGson();
         Task task = new Task();
         task.setStartTime(LocalDateTime.now());
         task.setDuration(120);
